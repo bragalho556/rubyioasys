@@ -1,0 +1,618 @@
+  [1m[35m (0.3ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (1818.5ms)[0m  [1m[35mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL PRIMARY KEY) ENGINE=InnoDB[0m
+  [1m[35m (829.6ms)[0m  [1m[35mCREATE TABLE `ar_internal_metadata` (`key` varchar(255) NOT NULL PRIMARY KEY, `value` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT DATABASE() as db[0m
+  [1m[35m (28.1ms)[0m  [1m[34mSELECT GET_LOCK(6139402588272074520, 0)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Migrating to DeviseCreateUsers (20170602214214)
+  [1m[35m (451.5ms)[0m  [1m[35mCREATE TABLE `users` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (664.5ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (388.6ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_reset_password_token`  ON `users` (`reset_password_token`) [0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (79.8ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20170602214214')[0m
+  [1m[35m (81.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateAuthentications (20170602214326)
+  [1m[35m (532.9ms)[0m  [1m[35mCREATE TABLE `authentications` (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY, `authable_type` varchar(255), `authable_id` int, `client` varchar(255) NOT NULL, `encrypted_access_token` varchar(255) NOT NULL, `metadata` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_authentications_on_authable_type_and_authable_id`  (`authable_type`, `authable_id`)) ENGINE=InnoDB[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20170602214326')[0m
+  [1m[35m (151.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddProviderToUsers (20170602214328)
+  [1m[35m (1137.7ms)[0m  [1m[35mALTER TABLE `users` ADD `provider` varchar(255) DEFAULT 'email' NOT NULL[0m
+  [1m[35m (924.2ms)[0m  [1m[35mALTER TABLE `users` ADD `uid` varchar(255) NOT NULL[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20170602214328')[0m
+  [1m[35m (63.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (27.6ms)[0m  [1m[32mINSERT INTO `ar_internal_metadata` (`key`, `value`, `created_at`, `updated_at`) VALUES ('environment', 'development', '2017-06-02 21:45:02', '2017-06-02 21:45:02')[0m
+  [1m[35m (69.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT RELEASE_LOCK(6139402588272074520)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  [1m[35m (11.6ms)[0m  [1m[35mSHOW CREATE TABLE `authentications`[0m
+  [1m[35m (0.7ms)[0m  [1m[35mSHOW TABLE STATUS LIKE 'authentications'[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSHOW CREATE TABLE `users`[0m
+  [1m[35m (0.7ms)[0m  [1m[35mSHOW TABLE STATUS LIKE 'users'[0m
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 18:45:32 -0300
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 18:59:00 -0300
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 18:59:37 -0300
+  [1m[35m (0.6ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 19:00:09 -0300
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 19:00:21 -0300
+  [1m[35m (0.6ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 19:02:02 -0300
+  [1m[35m (1.9ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+LoadError (Unable to autoload constant Api::V1::UsersController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/users_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 19:02:52 -0300
+  [1m[35m (0.6ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::UsersController#create as JSON
+  Parameters: {"email"=>"teste@teste.com", "password"=>"[FILTERED]", "user"=>{"email"=>"teste@teste.com"}}
+HTTP Origin header (chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop) didn't match request.base_url (http://localhost:3000)
+Completed 400 Bad Request in 39ms (Views: 0.4ms | ActiveRecord: 1.4ms)
+
+
+Started POST "/api/v1/users" for 127.0.0.1 at 2017-06-02 19:03:54 -0300
+Processing by Api::V1::UsersController#create as JSON
+  Parameters: {"email"=>"teste@teste.com", "password"=>"[FILTERED]", "user"=>{"email"=>"teste@teste.com"}}
+HTTP Origin header (chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop) didn't match request.base_url (http://localhost:3000)
+Unpermitted parameters: :format, :user
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (68.4ms)[0m  [1m[34mSELECT  1 AS one FROM `users` WHERE `users`.`email` = BINARY 'teste@teste.com' LIMIT 1[0m
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `users` WHERE `users`.`uid` = BINARY 'teste@teste.com' LIMIT 1[0m
+  [1m[35mSQL (100.1ms)[0m  [1m[32mINSERT INTO `users` (`email`, `encrypted_password`, `created_at`, `updated_at`, `uid`) VALUES ('teste@teste.com', '$2a$11$r8jiW9SVXuwHxEINKsM9k.U4DpT/1uaODSS91Hxu1cSxzd/Z50Qcy', '2017-06-02 22:03:55', '2017-06-02 22:03:55', 'teste@teste.com')[0m
+  [1m[35m (150.8ms)[0m  [1m[35mCOMMIT[0m
+DEPRECATION WARNING: Passing string to :if and :unless conditional options is deprecated and will be removed in Rails 5.2 without replacement. (called from <class:Authentication> at /home/diogo/Documents/appteste/app/models/authentication.rb:19)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mSQL (184.3ms)[0m  [1m[32mINSERT INTO `authentications` (`authable_type`, `authable_id`, `client`, `encrypted_access_token`, `created_at`, `updated_at`) VALUES ('User', 1, 'CBUx-uSwsygxWN7L6Tet', '7491367c4b6d4a6a8726756c0445f71bdb2ad395eb855f3c20cb499f01428338', '2017-06-02 22:03:56', '2017-06-02 22:03:56')[0m
+  [1m[35m (119.4ms)[0m  [1m[35mCOMMIT[0m
+Completed 200 OK in 2056ms (Views: 2.1ms | ActiveRecord: 627.5ms)
+
+
+  [1m[35m (0.8ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT DATABASE() as db[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT GET_LOCK(6139402588272074520, 0)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Migrating to CreateCompanies (20170602220605)
+  [1m[35m (444.7ms)[0m  [1m[35mCREATE TABLE `companies` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` varchar(255), `about` text, `ctype` int, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (23.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20170602220605')[0m
+  [1m[35m (133.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT RELEASE_LOCK(6139402588272074520)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSHOW CREATE TABLE `authentications`[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSHOW TABLE STATUS LIKE 'authentications'[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSHOW CREATE TABLE `companies`[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSHOW TABLE STATUS LIKE 'companies'[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSHOW CREATE TABLE `users`[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSHOW TABLE STATUS LIKE 'users'[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (44.8ms)[0m  [1m[32mINSERT INTO `companies` (`name`, `about`, `ctype`, `created_at`, `updated_at`) VALUES ('Teste', 'Descricao', 1, '2017-06-02 22:13:04', '2017-06-02 22:13:04')[0m
+  [1m[35m (86.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (20.5ms)[0m  [1m[32mINSERT INTO `companies` (`name`, `about`, `ctype`, `created_at`, `updated_at`) VALUES ('Teste2', 'Descricao2', 1, '2017-06-02 22:13:29', '2017-06-02 22:13:29')[0m
+  [1m[35m (186.8ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/api/v1/company" for 127.0.0.1 at 2017-06-02 19:22:39 -0300
+  [1m[35m (0.4ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/company"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:23:16 -0300
+  
+LoadError (Unable to autoload constant Api::V1::CompaniesController, expected /home/diogo/Documents/appteste/app/controllers/api/v1/companies_controller.rb to define it):
+  
+activesupport (5.1.1) lib/active_support/dependencies.rb:511:in `load_missing_constant'
+activesupport (5.1.1) lib/active_support/dependencies.rb:202:in `const_missing'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `const_get'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:271:in `block in constantize'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `each'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `inject'
+activesupport (5.1.1) lib/active_support/inflector/methods.rb:267:in `constantize'
+activesupport (5.1.1) lib/active_support/dependencies.rb:582:in `get'
+activesupport (5.1.1) lib/active_support/dependencies.rb:613:in `constantize'
+actionpack (5.1.1) lib/action_dispatch/http/request.rb:82:in `controller_class'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:43:in `controller'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:29:in `serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:46:in `block in serve'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `each'
+actionpack (5.1.1) lib/action_dispatch/journey/router.rb:33:in `serve'
+actionpack (5.1.1) lib/action_dispatch/routing/route_set.rb:832:in `call'
+warden (1.2.7) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.7) lib/warden/manager.rb:35:in `catch'
+warden (1.2.7) lib/warden/manager.rb:35:in `call'
+rack (2.0.3) lib/rack/etag.rb:25:in `call'
+rack (2.0.3) lib/rack/conditional_get.rb:25:in `call'
+rack (2.0.3) lib/rack/head.rb:12:in `call'
+activerecord (5.1.1) lib/active_record/migration.rb:556:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.1) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.1) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.0) lib/puma/configuration.rb:224:in `call'
+puma (3.9.0) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.0) lib/puma/server.rb:435:in `process_client'
+puma (3.9.0) lib/puma/server.rb:299:in `block in run'
+puma (3.9.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:24:32 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"company"=>{}}
+No template found for Api::V1::CompaniesController#index, rendering head :no_content
+Completed 204 No Content in 27ms (ActiveRecord: 1.2ms)
+
+
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:25:42 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"company"=>{}}
+No template found for Api::V1::CompaniesController#index, rendering head :no_content
+Completed 204 No Content in 27ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:26:26 -0300
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies`[0m
+  Rendered api/v1/companies/index.json.jbuilder (190.4ms)
+Completed 200 OK in 209ms (Views: 205.8ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/api/v1/companies/1" for 127.0.0.1 at 2017-06-02 19:31:16 -0300
+Processing by Api::V1::CompaniesController#show as JSON
+  Parameters: {"id"=>"1", "company"=>{}}
+  [1m[36mCompany Load (2.3ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` WHERE `companies`.`id` = 1 LIMIT 1[0m
+  Rendering api/v1/companies/show.json.jbuilder
+  Rendered api/v1/companies/show.json.jbuilder (2.3ms)
+Completed 200 OK in 30ms (Views: 7.5ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:33:41 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies`[0m
+  Rendered api/v1/companies/index.json.jbuilder (13.9ms)
+Completed 200 OK in 21ms (Views: 18.2ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/api/v1/companies/2" for 127.0.0.1 at 2017-06-02 19:33:51 -0300
+Processing by Api::V1::CompaniesController#show as JSON
+  Parameters: {"id"=>"2", "company"=>{}}
+Completed 401 Unauthorized in 113ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/api/v1/companies?name=Teste1" for 127.0.0.1 at 2017-06-02 19:46:43 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste1", "company"=>{}}
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 2.6ms)
+
+
+  
+NoMethodError (undefined method `any?' for "Teste1":String):
+  
+app/controllers/api/v1/companies_controller.rb:5:in `index'
+Started GET "/api/v1/companies?name=Teste1" for 127.0.0.1 at 2017-06-02 19:47:24 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste1", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}%')[0m
+  Rendered api/v1/companies/index.json.jbuilder (2.3ms)
+Completed 200 OK in 9ms (Views: 6.8ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/api/v1/companies?name=Teste" for 127.0.0.1 at 2017-06-02 19:47:35 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}%')[0m
+  Rendered api/v1/companies/index.json.jbuilder (1.9ms)
+Completed 200 OK in 7ms (Views: 4.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/v1/companies?name=t" for 127.0.0.1 at 2017-06-02 19:47:43 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"t", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.6ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}%')[0m
+  Rendered api/v1/companies/index.json.jbuilder (2.1ms)
+Completed 200 OK in 7ms (Views: 4.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/api/v1/companies" for 127.0.0.1 at 2017-06-02 19:47:52 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies`[0m
+  Rendered api/v1/companies/index.json.jbuilder (25.0ms)
+Completed 200 OK in 32ms (Views: 26.8ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/api/v1/companies?name=Teste" for 127.0.0.1 at 2017-06-02 19:48:13 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.4ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}%')[0m
+  Rendered api/v1/companies/index.json.jbuilder (1.8ms)
+Completed 200 OK in 6ms (Views: 4.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/api/v1/companies?name=Teste" for 127.0.0.1 at 2017-06-02 19:48:46 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.7ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}')[0m
+  Rendered api/v1/companies/index.json.jbuilder (4.5ms)
+Completed 200 OK in 11ms (Views: 8.9ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/api/v1/companies?name=Teste" for 127.0.0.1 at 2017-06-02 19:48:53 -0300
+Processing by Api::V1::CompaniesController#index as JSON
+  Parameters: {"name"=>"Teste", "company"=>{}}
+  Rendering api/v1/companies/index.json.jbuilder
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT `companies`.* FROM `companies` WHERE (name LIKE '%#{params[:name]}')[0m
+  Rendered api/v1/companies/index.json.jbuilder (1.7ms)
+Completed 200 OK in 7ms (Views: 4.5ms | ActiveRecord: 1.6ms)
+
+
+  [1m[35m (0.5ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` LIMIT 11[0m
+  [1m[36mCompany Load (17.5ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` WHERE (name LIKE ? %Tes) LIMIT 11[0m
+  [1m[36mCompany Load (0.8ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` WHERE (name LIKE ? '%Tes') LIMIT 11[0m
+  [1m[36mCompany Load (0.8ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` WHERE (name LIKE ? '%Tes%') LIMIT 11[0m
+  [1m[36mCompany Load (1.0ms)[0m  [1m[34mSELECT  `companies`.* FROM `companies` WHERE (name LIKE ? %Tes%) LIMIT 11[0m
